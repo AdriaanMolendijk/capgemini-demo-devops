@@ -2,8 +2,8 @@
 
 # Set up environment variables
 LOCATION=westeurope
-RESOURCEGROUP=demo-0325
-CLUSTER=mycluster-demo-0325
+RESOURCEGROUP=myrq-0325
+CLUSTER=mycluster-0325
 
 # Create the resource group
 az group create --name $RESOURCEGROUP --location $LOCATION
