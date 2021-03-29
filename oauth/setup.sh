@@ -12,3 +12,6 @@ oc delete secrets kubeadmin -n kube-system
 
 # Update passwords
 oc create secret generic htpass-secret --from-file=htpasswd=.htpasswd --dry-run=client -o yaml -n openshift-config | oc replace -f -
+
+# Update user permissions
+oc adm policy add-cluster-role-to-user cluster-admin <user>
