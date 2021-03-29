@@ -1,0 +1,2 @@
+# storage
+This folder contains code we used to configure the storage in Azure/Openshift. Documentation: https://docs.openshift.com/container-platform/4.7/storage/persistent_storage/persistent-storage-azure-file.html
