@@ -3,11 +3,23 @@ pipeline {
         label 'docker'    
     }
     
+    environment {
+        OC_API_ADDR = credentials('openshift-cluster-api-address')
+        OC_CREDS = credentials('oc-creds')
+    }
+
     stages {
         stage('Build image') {
             steps {
                 sh 'docker build -t docker.apps.adriaanmolendijk.info/nginx k8s/nginx'
                 sh 'docker push docker.apps.adriaanmolendijk.info/nginx'
+            }
+        }
+
+        stage('Deploy image to cluster') {
+            steps {
+                sh 'oc login -u bryan -p $OC_CREDS $OC_API_ADDR --insecure-skip-tls-verify'
+                sh 'oc apply -f k8s/nginx/k8s'
             }
         }
     }
