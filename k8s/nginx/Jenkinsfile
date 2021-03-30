@@ -7,6 +7,8 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Hello World'
+                sh 'pwd'
+                sh 'uname --all'
             }
         }
     }
