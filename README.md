@@ -7,4 +7,4 @@ Setup:
 - (Adriaan) IAC (automated app / helm deployments)
 - (Burt) Microservices (pipeline + e.g. service mesh)
 - (Adriaan) Security (Openshift compliance operator + sealed secrets)
-- (Adriaan) monitoring/logging
+- (Adriaan) monitoring/logging 
