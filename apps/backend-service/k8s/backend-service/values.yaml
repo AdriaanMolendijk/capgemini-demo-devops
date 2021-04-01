@@ -1,0 +1,49 @@
+# Default values for backend-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: docker.apps.adriaanmolendijk.info/backend-service
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+basePath: /api/example
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext:
+  capabilities:
+  drop:
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 10m
+    memory: 64Mi
+
+
+secrets: {}
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }

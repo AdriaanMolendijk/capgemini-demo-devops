@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: backend-service
+  cloud:
+    kubernetes:
+      secrets:
+        paths: /etc/secrets
+      config:
+        name: backend-service
+        sources:
+          - name: backend-service

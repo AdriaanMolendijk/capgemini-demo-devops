@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+        label 'docker'
+    }
+
+    environment {
+        OC_API_ADDR = credentials('openshift-cluster-api-address')
+        OC_CREDS = credentials('oc-creds')
+        APP_NAME = "api-gateway"
+        IMAGE_NAME = "docker.apps.adriaanmolendijk.info/${APP_NAME}"
+    }
+
+    stages {
+        stage('Build image') {
+            steps {
+                sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} apps/${APP_NAME}'
+                sh 'docker ${IMAGE_NAME}:${BUILD_NUMBER}'
+            }
+        }
+
+        stage('Deploy image to cluster') {
+            steps {
+                sh 'oc login -u bryan -p $OC_CREDS $OC_API_ADDR --insecure-skip-tls-verify'
+                sh 'oc config set-context --current --namespace apps'
+                sh 'helm upgrade ${APP_NAME} apps/${APP_NAME}/k8s/${APP_NAME} --set image.tag=${BUILD_NUMBER} --set image.repository=${IMAGE_NAME} --install'
+
+            }
+        }
+    }
+}

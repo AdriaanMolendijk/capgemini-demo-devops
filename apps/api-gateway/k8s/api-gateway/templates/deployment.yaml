@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.web.name }}
+  labels:
+    app: {{ .Values.web.name }}
+    chart: {{ template "api-gateway.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.web.name }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.web.name }}
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: docker-creds
+      containers:
+        - name: {{ .Values.web.name }}
+          env:
+            - name: SPRING_OPTS
+              value: >-
+                --spring.profiles.active={{ .Values.web.enviroment }}
+                --spring.cloud.kubernetes.secrets.paths=/etc/secrets
+          image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+          imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+          livenessProbe:
+            initialDelaySeconds: 300
+            httpGet:
+              path: /actuator/health
+              port: http
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            {{- range .Values.secrets }}
+            - name: {{ . | quote }}
+              mountPath: /etc/secrets/{{ . }}
+              readOnly: true
+      {{- end }}
+      volumes:
+        {{- range .Values.secrets }}
+        - name: {{ . | quote }}
+          secret:
+            secretName: {{ . | quote }}
+  {{- end }}

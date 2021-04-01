@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.web.name }}
+  labels:
+    spring.cloud.kubernetes.config: "true"
+data:
+  application.properties: |-
+    bean.message=Hello World!

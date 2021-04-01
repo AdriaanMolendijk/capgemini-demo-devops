@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "frontend-app.fullname" . }}
+  labels:
+    app: {{ .Values.web.name }}
+    chart: {{ template "frontend-app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.web.name }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.web.name }}
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: docker-creds
+      containers:
+        - name: {{ .Values.web.name }}
+          image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+          imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi

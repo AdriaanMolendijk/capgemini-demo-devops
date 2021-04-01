@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "backend-service.fullname" . }}
+  labels:
+    spring.cloud.kubernetes.config: "true"
+data:
+  application.yaml: |-
+    app:
+      prefix: config-map

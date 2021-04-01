@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: backend-service
+  webflux:
+    base-path: /api/example
+springdoc:
+  default-produces-media-type: application/json
+
+trace-errors: true
+
+app:
+  prefix: application-yaml

@@ -1,0 +1,42 @@
+{{- $fullName := include "api-gateway.fullname" . -}}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+    name: {{ $fullName }}
+  {{- if eq .Values.web.ingress.serviceMesh.enabled true }}
+    namespace: istio-system
+  {{- end}}
+    labels:
+        app: {{ .Values.web.name }}
+        chart: {{ template "api-gateway.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    annotations:
+        ingress.kubernetes.io/ssl-redirect: "true"
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: {{ .Values.web.ingress.issuer }}
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/proxy-body-size: 60m
+  {{- if eq .Values.web.ingress.serviceMesh.enabled false }}
+        nginx.ingress.kubernetes.io/service-upstream: "true"
+        nginx.ingress.kubernetes.io/upstream-vhost: {{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end}}
+spec:
+    rules:
+        - host: {{ .Values.web.ingress.domain }}
+          http:
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+                  backend:
+                    {{- if eq .Values.web.ingress.serviceMesh.enabled false }}
+                    serviceName: {{ $fullName }}
+                    servicePort: {{ .Values.service.port }}
+                    {{ else }}
+                    serviceName: istio-ingressgateway
+                    servicePort: 80
+                    {{- end }}
+    tls:
+        - hosts:
+              - {{ .Values.web.ingress.domain }}
+          secretName: {{ .Values.web.ingress.secretName }}

@@ -1,0 +1,21 @@
+{{- if eq .Values.web.ingress.serviceMesh.enabled true }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Release.Namespace }}-gateway-rule
+  labels:
+    chart: {{ template "api-gateway.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  hosts:
+    - {{ .Values.web.ingress.domain }}
+  gateways:
+    - {{ .Release.Namespace }}-ingess-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 8080
+            host: {{ .Values.web.name }}.{{ .Release.Namespace }}.svc.cluster.local
+{{- end}}

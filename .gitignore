@@ -1,5 +1,6 @@
 # Red Hat pull secret
 pull-secret.txt
 
+.idea
 # Keys
 *.key

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "backend-service.fullname" . }}
+  annotations:
+    boot.spring.io/actuator: http://:8080{{ .Values.basePath }}/actuator/refresh
+  labels:
+    {{- include "backend-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "backend-service.selectorLabels" . | nindent 4 }}
