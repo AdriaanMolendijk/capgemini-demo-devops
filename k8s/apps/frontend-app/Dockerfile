@@ -13,7 +13,7 @@ FROM node:10.15-jessie
 WORKDIR /usr/src/app
 
 COPY --from=builder build/package*.json ./
-COPY --from=builder build/node_modules /usr/src/app
+COPY --from=builder build/node_modules /usr/src/app/node_modules
 COPY --from=builder build/dist/fe-app /usr/src/app/www
 COPY --from=builder build/server.js /usr/src/app/server.js
 
