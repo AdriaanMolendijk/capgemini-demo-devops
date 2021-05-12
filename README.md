@@ -1,4 +1,4 @@
-# capgemini-demo-devops
+# capgemini-devops-demo
 This repository contains code we used for the DevOps demo at Capgemini.
 
 Setup:
