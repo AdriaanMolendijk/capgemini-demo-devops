@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUri: 'http://example.apps.blierop.com'
+  backendUri: 'http://example.apps.openshift-1.blierop.com'
 };

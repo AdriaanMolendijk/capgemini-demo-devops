@@ -5,7 +5,7 @@ metadata:
     app: nexus
   name: nexus
 spec:
-  host: nexus.apps.blierop.com
+  host: nexus.apps.openshift-1.blierop.com
   port:
     targetPort: 8081
   to:

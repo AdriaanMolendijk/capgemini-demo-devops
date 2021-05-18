@@ -11,8 +11,8 @@ pipeline {
     stages {
         stage('Build image') {
             steps {
-                sh 'docker build -t docker.apps.blierop.com/nginx k8s/nginx'
-                sh 'docker push docker.apps.blierop.com/nginx'
+                sh 'docker build -t docker.apps.openshift-1.blierop.com/nginx k8s/nginx'
+                sh 'docker push docker.apps.openshift-1.blierop.com/nginx'
             }
         }
 

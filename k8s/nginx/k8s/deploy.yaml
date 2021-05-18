@@ -20,7 +20,7 @@ spec:
         runAsUser: 0
       serviceAccountName: apps
       containers:
-      - image: docker.apps.blierop.com/nginx
+      - image: docker.apps.openshift-1.blierop.com/nginx
         name: nginx
         ports:
         - containerPort: 80
