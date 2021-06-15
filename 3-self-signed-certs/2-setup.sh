@@ -16,4 +16,4 @@ oc patch image.config.openshift.io/cluster --patch '{"spec": {"additionalTrusted
 oc create secret docker-registry docker-creds \
     --docker-server=${DOCKER_SERVER} \
     --docker-username=${DOCKER_USERNAME}  \
-    --docker-password=${DOCKER_PASSWORD}
+    --docker-password=${DOCKER_PASSWORD} -n cicd
