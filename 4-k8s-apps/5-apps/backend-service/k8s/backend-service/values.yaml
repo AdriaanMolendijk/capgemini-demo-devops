@@ -17,8 +17,7 @@ basePath: /api/example
 
 podAnnotations: {}
 
-podSecurityContext:
-  runAsUser: 1000
+podSecurityContext: {}
 # fsGroup: 2000
 
 securityContext:
