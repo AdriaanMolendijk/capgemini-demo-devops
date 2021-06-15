@@ -5,4 +5,6 @@ pull-secret.txt
 # Keys
 *.key
 
+setEnv.sh
+
 node_modules

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+export SUBSCRIPTION_ID=
+
+export LOCATION=
+export RESOURCEGROUP=
+export CLUSTER=
+export DOMAIN=
+
+export STORAGE_SECRET_NAME=
+export STORAGE_ACCOUNT=
+export STORAGE_ACCOUNT_KEY=
+
+export CA_FILE_NAME=
+export CSR_FILE_NAME=
+export CERT_FILE_NAME=
+export CERT_CONFIG=
+
+export DOCKER_SERVER=
+export DOCKER_USERNAME=
+export DOCKER_PASSWORD=
